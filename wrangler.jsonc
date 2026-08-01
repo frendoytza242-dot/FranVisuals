@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+
+  // Must match the existing Worker in the Cloudflare dashboard, otherwise
+  // `wrangler deploy` creates a second Worker instead of updating this one.
+  "name": "franvisuals",
+  "compatibility_date": "2026-08-01",
+
+  // Purely static site: no `main` entrypoint, so Wrangler uploads the built
+  // output directly. `npm run build` writes the optimized images and HTML into
+  // ./dist, and this is what tells `npx wrangler deploy` to publish that folder.
+  "assets": {
+    "directory": "./dist"
+  }
+}
