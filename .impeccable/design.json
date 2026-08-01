@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-01T05:20:00Z",
+  "title": "Design System: FranVisuals",
+  "extensions": {
+    "colorMeta": {
+      "accent-dark": { "role": "primary", "displayName": "Signal Celeste (night)", "canonical": "#38bdf8", "tonalRamp": ["#04121f", "#062940", "#084060", "#0b6fa8", "#1a92d4", "#38bdf8", "#7dd3fc", "#d6f0ff"] },
+      "accent-light": { "role": "primary", "displayName": "Signal Celeste (day)", "canonical": "#0b6fa8", "tonalRamp": ["#04121f", "#062940", "#095b8b", "#0b6fa8", "#1a92d4", "#38bdf8", "#7dd3fc", "#d6f0ff"] },
+      "logo-navy": { "role": "secondary", "displayName": "Logo Navy", "canonical": "#0d1b33", "tonalRamp": ["#05090f", "#0a1220", "#0d1b33", "#16294a", "#22406f", "#3a63a0", "#7d9ac9", "#d3dded"] },
+      "live-dark": { "role": "tertiary", "displayName": "Live Red (night)", "canonical": "#ff5a5a" },
+      "live-light": { "role": "tertiary", "displayName": "Live Red (day)", "canonical": "#d92626" },
+      "bg-dark": { "role": "neutral", "displayName": "Control-Room Black", "canonical": "#05090f" },
+      "bg-light": { "role": "neutral", "displayName": "Brand Paper", "canonical": "#eef1f7" },
+      "bg-elevated-dark": { "role": "neutral", "displayName": "Elevated (night)", "canonical": "#0a1220" },
+      "bg-elevated-light": { "role": "neutral", "displayName": "Elevated (day)", "canonical": "#ffffff" },
+      "panel-dark": { "role": "neutral", "displayName": "Panel (night)", "canonical": "#0c1424" },
+      "text-dark": { "role": "neutral", "displayName": "Ink (night)", "canonical": "#eaf2fb" },
+      "text-light": { "role": "neutral", "displayName": "Ink (day)", "canonical": "#0a1220" },
+      "text-dim-dark": { "role": "neutral", "displayName": "Ink Dim (night)", "canonical": "#8ea3bd" },
+      "text-dim-light": { "role": "neutral", "displayName": "Ink Dim (day)", "canonical": "#4d5f7a" },
+      "caption-ink": { "role": "neutral", "displayName": "Caption Ink (theme-independent)", "canonical": "#f4f9ff" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only." },
+      "stat-lead": { "displayName": "Stat Lead", "purpose": "The single headline figure in the stat band." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings and closing CTA." },
+      "wordmark": { "displayName": "Wordmark", "purpose": "Header and footer lockup." },
+      "ticker": { "displayName": "Ticker", "purpose": "Looping bottom-line strip." },
+      "body": { "displayName": "Body", "purpose": "Hero subhead and section intros." },
+      "action": { "displayName": "Action", "purpose": "Buttons and filter pills." },
+      "label": { "displayName": "Label", "purpose": "Pills and stat captions — always uppercase." },
+      "tag": { "displayName": "Tag", "purpose": "Category tags burned into image captions." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-standard", "value": "ease", "purpose": "Border, colour, and small transform transitions on hover/focus." },
+      { "name": "ease-stage", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Carousel slide movement and the theme-toggle knob." },
+      { "name": "theme-crossfade", "value": "background 0.35s ease, color 0.35s ease", "purpose": "Day/night swap on body, logo masks, and toggle track." },
+      { "name": "count-up", "value": "1 - (1-t)^3 over 1100ms", "purpose": "Stat figures animate from 0 once the hero is in view." },
+      { "name": "carousel-advance", "value": "3800ms interval", "purpose": "Auto-advance; paused on hover, focus, and tab hide; off under reduced motion." },
+      { "name": "ticker-loop", "value": "translateX 0 -> -50% over 34s linear infinite", "purpose": "Bottom-line marquee; paused on hover, static under reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "header-cta-drop", "value": "560px" },
+      { "name": "gallery-collapse", "value": "720px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main WhatsApp CTA, hero and closing section.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Hablemos por WhatsApp</a>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:.55rem; font-family:Archivo,system-ui,sans-serif; font-weight:700; font-size:.92rem; letter-spacing:.02em; text-decoration:none; padding:.72rem 1.25rem; background:var(--accent,#38bdf8); color:var(--on-accent,#04121f); border:1px solid transparent; clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px)); transition:transform .18s ease,background .18s ease; } .ds-btn-primary:hover{ background:var(--accent-bright,#7dd3fc); transform:translateY(-2px);} .ds-btn-primary:focus-visible{ outline:2px solid var(--accent,#38bdf8); outline-offset:3px;}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action — header Contactar, hero archive link.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">Contactar</a>",
+      "css": ".ds-btn-ghost { display:inline-flex; align-items:center; gap:.55rem; font-family:Archivo,system-ui,sans-serif; font-weight:700; font-size:.92rem; text-decoration:none; padding:.72rem 1.25rem; background:transparent; color:var(--text,#eaf2fb); border:1px solid var(--border-strong,rgba(125,211,252,.32)); clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px)); transition:border-color .18s ease,color .18s ease; } .ds-btn-ghost:hover{ border-color:var(--accent,#38bdf8); color:var(--accent,#38bdf8);}"
+    },
+    {
+      "name": "Theme Toggle",
+      "kind": "custom",
+      "refersTo": "theme-toggle",
+      "description": "Cut-corner day/night switch with a sliding accent knob; persists to localStorage.",
+      "html": "<button class=\"ds-toggle\" type=\"button\" aria-label=\"Cambiar entre modo día y noche\" aria-pressed=\"false\"><span class=\"ds-toggle-track\"><svg class=\"ds-ico ds-ico-sun\" viewBox=\"0 0 24 24\" width=\"13\" height=\"13\"><circle cx=\"12\" cy=\"12\" r=\"5\" fill=\"currentColor\"/></svg><svg class=\"ds-ico ds-ico-moon\" viewBox=\"0 0 24 24\" width=\"13\" height=\"13\"><path fill=\"currentColor\" d=\"M12.6 2a8.3 8.3 0 0 0 9.1 11.9A9.6 9.6 0 1 1 12.6 2Z\"/></svg><span class=\"ds-knob\"></span></span></button>",
+      "css": ".ds-toggle{border:0;background:none;padding:0;cursor:pointer;line-height:0} .ds-toggle-track{position:relative;display:inline-flex;align-items:center;justify-content:space-between;width:3.9rem;height:2.2rem;padding:0 .5rem;border:1px solid var(--border,rgba(125,211,252,.14));background:var(--bg-elevated,#0a1220);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));transition:border-color .25s ease,background .35s ease} .ds-toggle:hover .ds-toggle-track{border-color:var(--accent,#38bdf8)} .ds-toggle:focus-visible .ds-toggle-track{outline:2px solid var(--accent,#38bdf8);outline-offset:3px} .ds-ico{position:relative;z-index:2} .ds-ico-sun{color:var(--text-dim,#8ea3bd);opacity:.5} .ds-ico-moon{color:var(--on-accent,#04121f)} .ds-knob{position:absolute;top:50%;left:.22rem;width:1.6rem;height:1.6rem;margin-top:-.8rem;background:var(--accent,#38bdf8);clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));transform:translateX(1.68rem);transition:transform .32s cubic-bezier(.16,1,.3,1),box-shadow .3s ease} .ds-toggle:hover .ds-knob{box-shadow:0 0 0 5px var(--accent-glow,rgba(56,189,248,.22))}"
+    },
+    {
+      "name": "Filter Pill",
+      "kind": "chip",
+      "refersTo": "filter-pill-active",
+      "description": "Category filter above the archive; active state fills accent.",
+      "html": "<button class=\"ds-filter is-active\" type=\"button\">Streamers <span>10</span></button>",
+      "css": ".ds-filter{font-family:Archivo,sans-serif;font-weight:700;font-size:.85rem;background:transparent;color:var(--text-dim,#8ea3bd);border:1px solid var(--border-strong,rgba(125,211,252,.32));padding:.55rem 1rem;cursor:pointer;display:inline-flex;gap:.45rem;align-items:center;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));transition:border-color .2s ease,color .2s ease,background .2s ease} .ds-filter span{opacity:.7;font-weight:500} .ds-filter:hover{color:var(--text,#eaf2fb)} .ds-filter.is-active{background:var(--accent,#38bdf8);color:var(--on-accent,#04121f);border-color:var(--accent,#38bdf8)}"
+    },
+    {
+      "name": "Live Pill",
+      "kind": "chip",
+      "refersTo": "live-pill",
+      "description": "Availability badge in the hero and closing CTA.",
+      "html": "<p class=\"ds-pill-live\"><span class=\"ds-dot\"></span>Disponible para nuevos proyectos</p>",
+      "css": ".ds-pill-live{display:inline-flex;align-items:center;gap:.5rem;font-family:Archivo,sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-dim,#8ea3bd);border:1px solid var(--border-strong,rgba(125,211,252,.32));padding:.42rem .85rem .42rem .65rem;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))} .ds-dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--live,#ff5a5a);animation:ds-pulse 1.9s infinite} @keyframes ds-pulse{0%{box-shadow:0 0 0 0 rgba(25, 207, 61,0.55)}70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}"
+    },
+    {
+      "name": "Stat Band",
+      "kind": "custom",
+      "refersTo": "stat-band",
+      "description": "Hierarchical stat display — one lead figure plus hairline-separated secondary counts. Replaces an earlier four-equal-box grid.",
+      "html": "<div class=\"ds-statband\"><div class=\"ds-stat-lead\"><span class=\"ds-stat-num\">1000+</span><span class=\"ds-stat-label\">Proyectos realizados</span></div><ul class=\"ds-stat-rest\"><li><span class=\"n\">10</span><span class=\"l\">Streamers</span></li><li><span class=\"n\">10</span><span class=\"l\">Clubes y deportistas</span></li><li><span class=\"n\">4</span><span class=\"l\">Marcas</span></li></ul></div>",
+      "css": ".ds-statband{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(1.25rem,4vw,3rem);width:100%;padding-top:2rem;border-top:1px solid var(--border,rgba(125,211,252,.14))} .ds-stat-lead{display:flex;flex-direction:column;align-items:center;gap:.15rem} .ds-stat-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.2rem,8vw,4.6rem);line-height:.9;color:var(--accent,#38bdf8)} .ds-stat-label{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim,#8ea3bd)} .ds-stat-rest{display:flex;flex-wrap:wrap;justify-content:center;margin:0;padding:0;list-style:none} .ds-stat-rest li{display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:0 clamp(.9rem,3vw,1.6rem);border-left:1px solid var(--border,rgba(125,211,252,.14))} .ds-stat-rest li:first-child{border-left:0} .ds-stat-rest .n{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;line-height:1;color:var(--text,#eaf2fb)} .ds-stat-rest .l{font-size:.66rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text-dim,#8ea3bd);text-align:center}"
+    },
+    {
+      "name": "Archive Card",
+      "kind": "card",
+      "refersTo": "project-card",
+      "description": "Masonry gallery tile with cut corner, viewfinder brackets, and a sliding caption.",
+      "html": "<figure class=\"ds-card\"><span class=\"ds-corner ds-tl\"></span><span class=\"ds-corner ds-tr\"></span><span class=\"ds-corner ds-bl\"></span><span class=\"ds-corner ds-br\"></span><img src=\"\" alt=\"\" /><figcaption><span class=\"ds-tag\">Streamers</span><span class=\"ds-title\">Joacogna · Estreno de Stream</span></figcaption></figure>",
+      "css": ".ds-card{position:relative;border:1px solid var(--border,rgba(125,211,252,.14));background:var(--panel,#0c1424);overflow:hidden;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));transition:border-color .25s ease,transform .35s ease} .ds-card:hover{border-color:var(--border-strong,rgba(125,211,252,.32));transform:translateY(-3px)} .ds-card img{display:block;width:100%;height:auto} .ds-corner{position:absolute;width:1.1rem;height:1.1rem;border-color:var(--accent,#38bdf8);opacity:0;transition:opacity .25s ease} .ds-tl{top:.5rem;left:.5rem;border-top:2px solid;border-left:2px solid} .ds-tr{top:.5rem;right:.5rem;border-top:2px solid;border-right:2px solid} .ds-bl{bottom:.5rem;left:.5rem;border-bottom:2px solid;border-left:2px solid} .ds-br{bottom:.5rem;right:.5rem;border-bottom:2px solid;border-right:2px solid} .ds-card:hover .ds-corner{opacity:1} .ds-card figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:.6rem;padding:.75rem .9rem;background:linear-gradient(to top,rgba(3,8,16,.94),rgba(3,8,16,0));transform:translateY(15%);opacity:0;transition:transform .25s ease,opacity .25s ease} .ds-card:hover figcaption{transform:translateY(0);opacity:1} .ds-tag{font-size:.64rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--on-accent,#04121f);background:var(--accent,#38bdf8);padding:.2rem .42rem} .ds-title{font-size:.8rem;font-weight:600;color:#f4f9ff}"
+    },
+    {
+      "name": "Carousel Slide",
+      "kind": "custom",
+      "refersTo": "carousel-slide",
+      "description": "Three-up showcase stage; side slides are rotated, scaled, blurred and dimmed rather than shadowed.",
+      "html": "<div class=\"ds-stage\"><figure class=\"ds-slide is-prev\"><img src=\"\" alt=\"\"/></figure><figure class=\"ds-slide is-current\"><img src=\"\" alt=\"\"/></figure><figure class=\"ds-slide is-next\"><img src=\"\" alt=\"\"/></figure></div>",
+      "css": ".ds-stage{position:relative;width:100%;aspect-ratio:16/7.4;overflow:hidden} .ds-slide{position:absolute;top:50%;left:50%;width:64%;margin:0;aspect-ratio:16/9;overflow:hidden;background:var(--panel,#0c1424);border:1px solid var(--border,rgba(125,211,252,.14));opacity:0;transform:translate(-50%,-50%) scale(.8);clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));transition:transform .75s cubic-bezier(.16,1,.3,1),opacity .6s ease,filter .6s ease} .ds-slide img{display:block;width:100%;height:100%;object-fit:cover} .ds-slide.is-current{opacity:1;transform:translate(-50%,-50%) scale(1);border-color:var(--border-strong,rgba(125,211,252,.32));z-index:3} .ds-slide.is-prev,.ds-slide.is-next{opacity:.45;filter:blur(2px) saturate(.7);z-index:2} .ds-slide.is-prev{transform:translate(-50%,-50%) translateX(-64%) rotate(-6deg) scale(.78)} .ds-slide.is-next{transform:translate(-50%,-50%) translateX(64%) rotate(6deg) scale(.78)}"
+    },
+    {
+      "name": "Ticker",
+      "kind": "custom",
+      "refersTo": "ticker",
+      "description": "Seamless bottom-line marquee. Each group is padded past the widest viewport so the -50% loop never exposes a gap.",
+      "html": "<div class=\"ds-ticker\"><div class=\"ds-ticker-viewport\"><div class=\"ds-ticker-group\"><span class=\"ds-ticker-item\">+1000 proyectos realizados</span></div><div class=\"ds-ticker-group\"><span class=\"ds-ticker-item\">+1000 proyectos realizados</span></div></div></div>",
+      "css": ".ds-ticker{border-top:1px solid var(--border,rgba(125,211,252,.14));border-bottom:1px solid var(--border,rgba(125,211,252,.14));background:var(--bg-elevated,#0a1220);overflow:hidden;padding:.8rem 0} .ds-ticker-viewport{display:flex;width:max-content;animation:ds-ticker 34s linear infinite} .ds-ticker-group{display:flex;flex-shrink:0} .ds-ticker-item{display:inline-flex;align-items:center;gap:.7rem;padding-right:2.75rem;font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.06em;color:var(--text-dim,#8ea3bd);white-space:nowrap} .ds-ticker-item::before{content:'';width:.42rem;height:.42rem;background:var(--accent,#38bdf8);transform:rotate(45deg);flex-shrink:0} .ds-ticker:hover .ds-ticker-viewport{animation-play-state:paused} @keyframes ds-ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Cut-Corner Broadcast Kit",
+    "overview": "FranVisuals designs the graphics that run underneath live streams, match broadcasts, and trading calls. The site is built out of the brand's own logo — an angular navy chevron sliced by a lightning bolt — rather than out of generic landing-page furniture. Every container in the system repeats the logo's cut corner: a notch taken out of the top-right and bottom-left of buttons, pills, cards, and the theme toggle. Nothing is rounded, because nothing in the logo is rounded.\n\nThe system ships in two themes of equal standing. Night is a near-black navy control room where a bright celeste is the only lit color. Day is the near-white sheet from FranVisuals' own brand banners, where the logo returns to its navy and the accent deepens so it keeps its contrast against paper. The theme is not a preference toggle bolted on — the brand kit itself exists in both, so the site does too.\n\nType is a two-voice pairing: Bebas Neue for anything shouted and Archivo for anything read or clicked. This is a Persuade surface: prove range and volume fast through the work itself, then hand the visitor a one-tap WhatsApp line.",
+    "keyCharacteristics": [
+      "Dual navy/near-white theming with a single celeste accent that re-tunes per theme",
+      "The logo's cut corner as the universal container shape; zero border-radius",
+      "Condensed broadcast caps over a grotesk workhorse",
+      "The logo itself as a recolorable CSS mask — one asset, both themes",
+      "Flat, hairline-bordered depth; no shadows anywhere"
+    ],
+    "rules": [
+      { "name": "The One Voice Rule", "body": "The celeste is reserved for things that are live, actionable, or numeric — a button, an active state, a count, a framing bracket. It never colors a paragraph or fills a full-bleed region.", "section": "colors" },
+      { "name": "The Two-Value Accent Rule", "body": "The accent has exactly one night value and one day value. A new state borrows one of them or stays neutral; it never introduces a third blue.", "section": "colors" },
+      { "name": "The Caption Ink Exception", "body": "Text sitting on a photograph is theme-independent, because the image underneath is the same in both themes.", "section": "colors" },
+      { "name": "The Shout/Talk Rule", "body": "Bebas Neue shouts (headlines, stat figures, wordmark, ticker); Archivo talks (everything else). A single string never mixes both faces.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Nothing casts a shadow. Interactive surfaces signal state through border brightening, a 2-3px lift, or the corner brackets appearing — never through elevation.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep the accent rare — buttons, active states, figures, brackets, ticker bullets — per the One Voice Rule.",
+      "Do apply the cut corner to every new container, sized to the component (6-18px).",
+      "Do render the logo through the CSS mask so it inherits the theme instead of shipping two image files.",
+      "Do keep both themes at WCAG AA or better; the day accent is deepened specifically to hold contrast on paper.",
+      "Do let the archive's aspect ratios stay mixed; never force-crop a 9:16 piece into a 16:9 tile.",
+      "Do gate the ticker, the carousel autoplay, and the live-dot pulse behind prefers-reduced-motion."
+    ],
+    "donts": [
+      "Don't add a drop-shadow or scale a card up on hover — depth comes from borders, layering, and the carousel's own transform language.",
+      "Don't introduce a third accent value or a second hue; the accent has exactly one night and one day value.",
+      "Don't round any corner, anywhere, for any component.",
+      "Don't let a marquee group be narrower than the viewport — that is what makes the loop cut.",
+      "Don't leave off-stage carousel slides focusable; they must stay inert."
+    ]
+  }
+}

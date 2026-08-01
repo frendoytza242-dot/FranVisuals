@@ -1,0 +1,1589 @@
+---
+import { Image, getImage } from 'astro:assets';
+
+const imageModules = import.meta.glob('../assets/proyectos/*.png', { eager: true }) as Record<string, { default: ImageMetadata }>;
+
+function img(file: string) {
+  return imageModules[`../assets/proyectos/${file}`].default;
+}
+
+type Category = 'streamers' | 'deportes' | 'empresa';
+
+const categoryLabels: Record<Category, string> = {
+  streamers: 'Streamers',
+  deportes: 'Deportes',
+  empresa: 'Empresa',
+};
+
+const projects: { file: string; title: string; category: Category }[] = [
+  { file: 'streamers-juanch1-vs-firewolf.png', title: 'Juanch1 · Análisis vs Firewolf', category: 'streamers' },
+  { file: 'streamers-juanch1-fecha3-esea.png', title: 'Juanch1 · Season 58 Fecha 3', category: 'streamers' },
+  { file: 'streamers-juanch1-coach-sub6.png', title: 'Juanch1 · Coach Sub #6', category: 'streamers' },
+  { file: 'deportes-fedehemida-la-plata.png', title: 'Fede Hemida · TP La Plata', category: 'deportes' },
+  { file: 'empresa-billions-alcista.png', title: 'Billions · Señal Alcista', category: 'empresa' },
+  { file: 'empresa-billions-bajista.png', title: 'Billions · Señal Bajista', category: 'empresa' },
+  { file: 'empresa-billions-sell.png', title: 'Billions · Sell', category: 'empresa' },
+  { file: 'streamers-blines-nukleo.png', title: 'Nukleo · Blines', category: 'streamers' },
+  { file: 'empresa-buy-mini-final.png', title: 'Buy Mini', category: 'empresa' },
+  { file: 'deportes-carlos-blanco-terrassa.png', title: 'Carlos Blanco vs Terrassa FC', category: 'deportes' },
+  { file: 'deportes-chinoo-boca-central.png', title: 'Chino · Boca vs Central', category: 'deportes' },
+  { file: 'deportes-chirinaud-imparable.png', title: 'ChirinAud · 5-1 Imparable', category: 'deportes' },
+  { file: 'streamers-danirep-gta6.png', title: 'Danirep · GTA VI', category: 'streamers' },
+  { file: 'deportes-derbi-aleti-madrid.png', title: 'Derbi Atlético Madrid · En Vivo', category: 'deportes' },
+  { file: 'streamers-entre-2-suculentas-joacogna.png', title: 'Joacogna · Entre 2 Suculentas', category: 'streamers' },
+  { file: 'deportes-fedehermida-rw100.png', title: 'Fede Hermida · RW 100', category: 'deportes' },
+  { file: 'deportes-fedehermida-tp-fecha.png', title: 'Fede Hermida · TP Fecha', category: 'deportes' },
+  { file: 'streamers-joacogna-streamestreno22.png', title: 'Joacogna · Estreno de Stream', category: 'streamers' },
+  { file: 'streamers-leao-chistes.png', title: 'Leao · Chistes', category: 'streamers' },
+  { file: 'streamers-leao-imitadores.png', title: 'Leao · Imitadores', category: 'streamers' },
+  { file: 'streamers-leao-miedo.png', title: 'Leao · Miedo', category: 'streamers' },
+  { file: 'deportes-marc-bernal-elche.png', title: 'Marc Bernal vs Elche · Fecha 22', category: 'deportes' },
+  { file: 'deportes-nardoni-r-central.png', title: 'Nardoni vs Rosario Central · Fecha 1', category: 'deportes' },
+  { file: 'deportes-santibiagi-sanluis.png', title: 'Santi Biagi · San Luis Fecha 11', category: 'deportes' },
+  { file: 'streamers-streammusica-joacogna.png', title: 'Joacogna · Stream de Música', category: 'streamers' },
+  { file: 'streamers-trippie-minecraft.png', title: 'Trippie · Minecraft', category: 'streamers' },
+  { file: 'streamers-vlogmonumental-damisalva.png', title: 'Damisalva · Vlog en el Monumental', category: 'streamers' },
+];
+
+// Twelve landscape (16:9) pieces for the three-up carousel — portrait pieces
+// would letterbox badly in a wide centre card.
+const showcase: { file: string; title: string; category: Category }[] = [
+  { file: 'streamers-juanch1-vs-firewolf.png', title: 'Juanch1 · Análisis vs Firewolf', category: 'streamers' },
+  { file: 'streamers-juanch1-fecha3-esea.png', title: 'Juanch1 · Season 58 Fecha 3', category: 'streamers' },
+  { file: 'streamers-juanch1-coach-sub6.png', title: 'Juanch1 · Coach Sub #6', category: 'streamers' },
+  { file: 'deportes-derbi-aleti-madrid.png', title: 'Derbi Atlético Madrid · En Vivo', category: 'deportes' },
+  { file: 'streamers-danirep-gta6.png', title: 'Danirep · GTA VI', category: 'streamers' },
+  { file: 'empresa-billions-alcista.png', title: 'Billions · Señal Alcista', category: 'empresa' },
+  { file: 'deportes-chinoo-boca-central.png', title: 'Chino · Boca vs Central', category: 'deportes' },
+  { file: 'streamers-trippie-minecraft.png', title: 'Trippie · Minecraft', category: 'streamers' },
+  { file: 'streamers-leao-chistes.png', title: 'Leao · Chistes', category: 'streamers' },
+  { file: 'deportes-chirinaud-imparable.png', title: 'ChirinAud · 5-1 Imparable', category: 'deportes' },
+  { file: 'empresa-buy-mini-final.png', title: 'Buy Mini', category: 'empresa' },
+  { file: 'streamers-vlogmonumental-damisalva.png', title: 'Damisalva · Vlog en el Monumental', category: 'streamers' },
+  { file: 'streamers-blines-nukleo.png', title: 'Nukleo · Blines', category: 'streamers' },
+  { file: 'empresa-billions-sell.png', title: 'Billions · Sell', category: 'empresa' },
+];
+
+const counts: Record<Category, number> = { streamers: 0, deportes: 0, empresa: 0 };
+for (const p of projects) counts[p.category]++;
+
+// Full-size variants for the lightbox: the 760w gallery renditions go soft once
+// a piece is blown up to fill the viewport.
+const fullSizes = await Promise.all(
+  projects.map((p) => getImage({ src: img(p.file), width: 1600, format: 'webp' })),
+);
+
+const tickerBase = [
+  'Disponible para nuevos proyectos',
+  '+1000 proyectos realizados',
+  'Streamers',
+  'Deportes',
+  'Empresa',
+  'Locales',
+  'Emprendimientos',
+  '+7 años',
+  '+200 clientes',
+];
+
+// The marquee runs as two identical groups translated by -50%. For the loop to
+// stay gapless the group itself has to be at least as wide as the viewport, so
+// the base list is repeated until one group comfortably outruns a wide display.
+const tickerItems = [...tickerBase, ...tickerBase, ...tickerBase];
+
+const whatsappMessage = '¡Buenas Fran, estoy interesado en que armemos un proyecto juntos! 🙌';
+const whatsappHref = `https://wa.me/5491138880492?text=${encodeURIComponent(whatsappMessage)}`;
+const twitterHref = 'https://x.com/TronkoGFX';
+const instagramHref = 'https://www.instagram.com/frann.visuals/';
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="theme-color" content="#05090f" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#eef1f7" media="(prefers-color-scheme: light)" />
+		<meta name="description" content="FranVisuals — diseño gráfico para streamers, deportes y marcas. +1000 proyectos realizados. Contactá por WhatsApp." />
+		<title>FranVisuals — Diseño gráfico para streamers, deportes y marcas</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet" />
+		<script is:inline>
+			// Resolve the theme before first paint so the page never flashes the wrong mode.
+			(function () {
+				try {
+					var stored = localStorage.getItem('fv-theme');
+					var theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+					document.documentElement.setAttribute('data-theme', theme);
+				} catch (e) {
+					document.documentElement.setAttribute('data-theme', 'dark');
+				}
+			})();
+		</script>
+	</head>
+	<body>
+<!--
+THESIS: FranVisuals' portfolio is built out of its own logo — angular navy
+shards, cut corners, a celeste signal — instead of a generic agency landing page.
+OWN-WORLD: deep navy / near-white dual-theme canvas, one celeste accent, the
+logo's chevron geometry as the recurring cut-corner motif, condensed broadcast
+caps (Bebas Neue) over a grotesk workhorse (Archivo).
+STORY: a client or recruiter lands, reads availability, sees the work moving in
+a three-up showcase, reads 1000+ proven pieces, filters by their own world
+(streamer / deporte / marca), and reaches Fran on WhatsApp in one tap.
+FIRST VIEWPORT: centred logo lockup and headline, availability pill, primary
+WhatsApp CTA, a hierarchical stat band, and the live carousel directly below.
+FORM: brief-pinned direction (user reference wodes.com.ar/casos + FranVisuals'
+own brand kit), re-skinned to the logo's navy/celeste identity on user request —
+concept-seed roll skipped per new-work.md §3's pinned-direction exception.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the
+finish review, the verdict, and DESIGN.md.
+-->
+		<a class="skip-link" href="#proyectos">Saltar al portafolio</a>
+
+		<header class="site-header">
+			<a class="wordmark" href="#top">
+				<span class="wordmark-mark" aria-hidden="true"></span>
+				<span class="wordmark-text">FRAN<span>VISUALS</span></span>
+			</a>
+			<div class="header-actions">
+				<button type="button" class="theme-toggle" data-theme-toggle aria-label="Cambiar entre modo día y noche" aria-pressed="false">
+					<span class="theme-toggle-track" aria-hidden="true">
+						<svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" width="13" height="13"><path fill="currentColor" d="M12 17.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11Zm0-1.8a3.7 3.7 0 1 0 0-7.4 3.7 3.7 0 0 0 0 7.4ZM11.1 1.9h1.8v3.2h-1.8V1.9Zm0 17h1.8v3.2h-1.8v-3.2ZM1.9 11.1h3.2v1.8H1.9v-1.8Zm17 0h3.2v1.8h-3.2v-1.8ZM4.4 5.7 5.7 4.4 8 6.7 6.7 8 4.4 5.7Zm11.6 11.6 1.3-1.3 2.3 2.3-1.3 1.3-2.3-2.3Zm2.3-14 1.3 1.4L17.3 8 16 6.7l2.3-2.4ZM6.7 16l1.3 1.3-2.3 2.3-1.3-1.3L6.7 16Z"/></svg>
+						<svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" width="13" height="13"><path fill="currentColor" d="M12.6 2a8.3 8.3 0 0 0 9.1 11.9A9.6 9.6 0 1 1 12.6 2Zm-1.9 2.4a7.8 7.8 0 1 0 8.3 10.9 10.1 10.1 0 0 1-8.3-10.9Z"/></svg>
+						<span class="theme-toggle-knob"></span>
+					</span>
+				</button>
+				<a class="icon-link" href={twitterHref} target="_blank" rel="noopener noreferrer" aria-label="FranVisuals en X">
+					<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-7.6 8.7L23.3 22H16.6l-5.2-6.8L5.4 22H2.3l8.1-9.3L1.5 2h6.9l4.7 6.2L18.9 2Zm-1.2 18h1.7L7.4 3.9H5.6L17.7 20Z"/></svg>
+				</a>
+				<a class="icon-link" href={instagramHref} target="_blank" rel="noopener noreferrer" aria-label="FranVisuals en Instagram">
+					<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2.2c2.7 0 3 .01 4.1.06 1.1.05 1.8.22 2.2.36.55.22.95.47 1.37.89.42.42.67.82.89 1.37.15.4.32 1.1.36 2.2.05 1.1.06 1.4.06 4.1s-.01 3-.06 4.1c-.05 1.1-.22 1.8-.36 2.2-.22.55-.47.95-.89 1.37-.42.42-.82.67-1.37.89-.4.15-1.1.32-2.2.36-1.1.05-1.4.06-4.1.06s-3-.01-4.1-.06c-1.1-.05-1.8-.22-2.2-.36-.55-.22-.95-.47-1.37-.89-.42-.42-.67-.82-.89-1.37-.15-.4-.32-1.1-.36-2.2C2.21 15 2.2 14.7 2.2 12s.01-3 .06-4.1c.05-1.1.22-1.8.36-2.2.22-.55.47-.95.89-1.37.42-.42.82-.67 1.37-.89.4-.15 1.1-.32 2.2-.36C7.99 2.21 8.3 2.2 11 2.2h1Zm0 1.8H11c-2.66 0-2.97 0-4.03.06-.9.04-1.4.19-1.72.32-.43.17-.74.37-1.07.7-.33.33-.53.64-.7 1.07-.13.32-.28.81-.32 1.72C3.1 8.83 3.1 9.14 3.1 12s0 2.97.06 4.03c.04.9.19 1.4.32 1.72.17.43.37.74.7 1.07.33.33.64.53 1.07.7.32.13.81.28 1.72.32 1.06.06 1.37.06 4.03.06s2.97 0 4.03-.06c.9-.04 1.4-.19 1.72-.32.43-.17.74-.37 1.07-.7.33-.33.53-.64.7-1.07.13-.32.28-.81.32-1.72.06-1.06.06-1.37.06-4.03s0-2.97-.06-4.03c-.04-.9-.19-1.4-.32-1.72a2.9 2.9 0 0 0-.7-1.07 2.9 2.9 0 0 0-1.07-.7c-.32-.13-.81-.28-1.72-.32C14.97 4 14.66 4 12 4Zm0 3.4a4.6 4.6 0 1 1 0 9.2 4.6 4.6 0 0 1 0-9.2Zm0 1.8a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6Zm4.8-2a1.08 1.08 0 1 1 0 2.16 1.08 1.08 0 0 1 0-2.16Z"/></svg>
+				</a>
+				<a class="btn btn-ghost header-cta" href={whatsappHref} target="_blank" rel="noopener noreferrer">Contactar</a>
+			</div>
+		</header>
+
+		<main id="top">
+			<section class="hero">
+				<div class="hero-shards" aria-hidden="true">
+					<span class="shard shard-1"></span>
+					<span class="shard shard-2"></span>
+					<span class="shard shard-3"></span>
+				</div>
+				<div class="hero-inner">
+					<span class="hero-mark" aria-hidden="true"></span>
+					<p class="pill-live"><span class="dot" aria-hidden="true"></span>Disponible para nuevos proyectos</p>
+					<h1 class="hero-title">DE TU CABEZA<br /><span class="accent">A LA PANTALLA</span></h1>
+					<p class="hero-sub">Piezas gráficas para streamers, clubes y marcas. Overlays, portadas, artes de partido y contenido que se ve como transmisión en vivo, no como plantilla.</p>
+					<div class="hero-actions">
+						<a class="btn btn-primary" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+							<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.9-2-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 5 4.3.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 2-1.4.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3ZM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 20.2 12c0 4.5-3.7 8.2-8.2 8.2Z"/></svg>
+							Hablemos por WhatsApp
+						</a>
+						<a class="btn btn-ghost" href="#proyectos">Ver el archivo ↓</a>
+					</div>
+
+					<div class="statband" data-stats>
+						<div class="stat-lead">
+							<span class="stat-lead-num">+<span data-count-to="1000">0</span></span>
+							<span class="stat-lead-label">Proyectos realizados</span>
+						</div>
+						<ul class="stat-rest">
+							<li><span class="n">+<span data-count-to="7">0</span></span><span class="l">Años</span></li>
+							<li><span class="n">+<span data-count-to="200">0</span></span><span class="l">Clientes</span></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<section class="showcase" aria-labelledby="destacados">
+				<div class="showcase-head">
+					<h2 id="destacados">Proyectos destacados</h2>
+					<p>Deslizá para conocerlos.</p>
+				</div>
+				<div class="carousel" data-carousel>
+					<div class="carousel-stage" data-carousel-stage>
+						{showcase.map((p, i) => (
+							<figure class="slide" data-slide data-index={i}>
+								<Image src={img(p.file)} alt={p.title} width={900} loading={i < 3 ? 'eager' : 'lazy'} />
+								<figcaption>
+									<span class="tag">{categoryLabels[p.category]}</span>
+									<span class="title">{p.title}</span>
+								</figcaption>
+							</figure>
+						))}
+					</div>
+					<div class="carousel-controls">
+						<button type="button" class="carousel-arrow" data-carousel-prev aria-label="Pieza anterior">
+							<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" d="m15 5-7 7 7 7"/></svg>
+						</button>
+						<div class="carousel-dots" data-carousel-dots role="tablist" aria-label="Elegir pieza">
+							{showcase.map((p, i) => (
+								<button type="button" class="carousel-dot" data-carousel-dot data-index={i} role="tab" aria-label={`Ver ${p.title}`} aria-selected={i === 0 ? 'true' : 'false'}></button>
+							))}
+						</div>
+						<button type="button" class="carousel-arrow" data-carousel-next aria-label="Pieza siguiente">
+							<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" d="m9 5 7 7-7 7"/></svg>
+						</button>
+					</div>
+				</div>
+			</section>
+
+			<div class="ticker" aria-hidden="true">
+				<div class="ticker-viewport">
+					<div class="ticker-group">
+						{tickerItems.map((t) => <span class="ticker-item">{t}</span>)}
+					</div>
+					<div class="ticker-group">
+						{tickerItems.map((t) => <span class="ticker-item">{t}</span>)}
+					</div>
+				</div>
+			</div>
+
+			<section class="gallery" id="proyectos">
+				<div class="gallery-head">
+					<h2>El archivo</h2>
+					<p>Selección de piezas — el archivo completo supera las 1000 producciones.</p>
+				</div>
+				<div class="filters" role="group" aria-label="Filtrar por categoría">
+					<button type="button" class="filter is-active" data-filter="all">Todos <span>{projects.length}</span></button>
+					<button type="button" class="filter" data-filter="streamers">Streamers <span>{counts.streamers}</span></button>
+					<button type="button" class="filter" data-filter="deportes">Deportes <span>{counts.deportes}</span></button>
+					<button type="button" class="filter" data-filter="empresa">Empresa <span>{counts.empresa}</span></button>
+				</div>
+				<div class="grid" data-grid>
+					{projects.map((p, i) => (
+						<figure class="card" data-category={p.category}>
+							<span class="corner corner-tl" aria-hidden="true"></span>
+							<span class="corner corner-tr" aria-hidden="true"></span>
+							<span class="corner corner-bl" aria-hidden="true"></span>
+							<span class="corner corner-br" aria-hidden="true"></span>
+							<Image src={img(p.file)} alt={p.title} width={760} loading="lazy" />
+							<button
+								type="button"
+								class="card-open"
+								data-open-lightbox
+								data-index={i}
+								data-full={fullSizes[i].src}
+								data-title={p.title}
+								data-tag={categoryLabels[p.category]}
+							><span class="sr-only">Ampliar {p.title}</span><span class="card-zoom" aria-hidden="true">
+								<svg viewBox="0 0 24 24" width="17" height="17"><g fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="square"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21M10.5 7.6v5.8M7.6 10.5h5.8"/></g></svg>
+							</span></button>
+							<figcaption>
+								<span class="tag">{categoryLabels[p.category]}</span>
+								<span class="title">{p.title}</span>
+							</figcaption>
+						</figure>
+					))}
+				</div>
+			</section>
+
+			<section class="cta">
+				<p class="pill-live"><span class="dot" aria-hidden="true"></span>Cupos abiertos este mes</p>
+				<h2>¿Querés armar proyectos<br />con una identidad única?<br /><span class="accent">¡Contactame!</span></h2>
+				<a class="btn btn-primary btn-lg" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+					<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.9-2-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 5 4.3.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 2-1.4.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3ZM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 20.2 12c0 4.5-3.7 8.2-8.2 8.2Z"/></svg>
+					+54 9 11 3888-0492
+				</a>
+			</section>
+		</main>
+
+		<div class="lightbox" data-lightbox hidden>
+			<div class="lightbox-scrim" data-lightbox-close></div>
+			<div class="lightbox-panel" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+				<figure class="lightbox-figure">
+					<div class="lightbox-media" data-lightbox-media></div>
+					<figcaption class="lightbox-caption">
+						<span class="tag" data-lightbox-tag></span>
+						<span class="lightbox-title" id="lightbox-title" data-lightbox-title></span>
+						<span class="lightbox-counter" data-lightbox-counter></span>
+					</figcaption>
+				</figure>
+				<button type="button" class="lightbox-btn lightbox-close" data-lightbox-close aria-label="Cerrar vista ampliada">
+					<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" d="m6 6 12 12M18 6 6 18"/></svg>
+				</button>
+				<button type="button" class="lightbox-btn lightbox-prev" data-lightbox-prev aria-label="Pieza anterior">
+					<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" d="m15 5-7 7 7 7"/></svg>
+				</button>
+				<button type="button" class="lightbox-btn lightbox-next" data-lightbox-next aria-label="Pieza siguiente">
+					<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" d="m9 5 7 7-7 7"/></svg>
+				</button>
+			</div>
+		</div>
+
+		<footer class="site-footer">
+			<span class="footer-mark" aria-hidden="true"></span>
+			<div class="footer-inner">
+				<div class="footer-brand">
+					<a class="wordmark" href="#top">
+						<span class="wordmark-mark" aria-hidden="true"></span>
+						<span class="wordmark-text">FRAN<span>VISUALS</span></span>
+					</a>
+					<p class="footer-tagline">Diseño gráfico para streamers, clubes y marcas. De tu cabeza, a la pantalla.</p>
+					<p class="pill-live footer-pill"><span class="dot" aria-hidden="true"></span>Disponible para nuevos proyectos</p>
+				</div>
+
+				<nav class="footer-col" aria-label="Secciones">
+					<h3>Explorar</h3>
+					<ul>
+						<li><a href="#destacados">Proyectos destacados</a></li>
+						<li><a href="#proyectos">El archivo</a></li>
+						<li><a href={whatsappHref} target="_blank" rel="noopener noreferrer">Pedir presupuesto</a></li>
+					</ul>
+				</nav>
+
+				<div class="footer-col">
+					<h3>Seguime</h3>
+					<ul class="footer-social">
+						<li>
+							<a href={instagramHref} target="_blank" rel="noopener noreferrer">
+								<span class="social-badge" aria-hidden="true">
+									<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2.2c2.7 0 3 .01 4.1.06 1.1.05 1.8.22 2.2.36.55.22.95.47 1.37.89.42.42.67.82.89 1.37.15.4.32 1.1.36 2.2.05 1.1.06 1.4.06 4.1s-.01 3-.06 4.1c-.05 1.1-.22 1.8-.36 2.2-.22.55-.47.95-.89 1.37-.42.42-.82.67-1.37.89-.4.15-1.1.32-2.2.36-1.1.05-1.4.06-4.1.06s-3-.01-4.1-.06c-1.1-.05-1.8-.22-2.2-.36-.55-.22-.95-.47-1.37-.89-.42-.42-.67-.82-.89-1.37-.15-.4-.32-1.1-.36-2.2C2.21 15 2.2 14.7 2.2 12s.01-3 .06-4.1c.05-1.1.22-1.8.36-2.2.22-.55.47-.95.89-1.37.42-.42.82-.67 1.37-.89.4-.15 1.1-.32 2.2-.36C7.99 2.21 8.3 2.2 11 2.2h1Zm0 1.8H11c-2.66 0-2.97 0-4.03.06-.9.04-1.4.19-1.72.32-.43.17-.74.37-1.07.7-.33.33-.53.64-.7 1.07-.13.32-.28.81-.32 1.72C3.1 8.83 3.1 9.14 3.1 12s0 2.97.06 4.03c.04.9.19 1.4.32 1.72.17.43.37.74.7 1.07.33.33.64.53 1.07.7.32.13.81.28 1.72.32 1.06.06 1.37.06 4.03.06s2.97 0 4.03-.06c.9-.04 1.4-.19 1.72-.32.43-.17.74-.37 1.07-.7.33-.33.53-.64.7-1.07.13-.32.28-.81.32-1.72.06-1.06.06-1.37.06-4.03s0-2.97-.06-4.03c-.04-.9-.19-1.4-.32-1.72a2.9 2.9 0 0 0-.7-1.07 2.9 2.9 0 0 0-1.07-.7c-.32-.13-.81-.28-1.72-.32C14.97 4 14.66 4 12 4Zm0 3.4a4.6 4.6 0 1 1 0 9.2 4.6 4.6 0 0 1 0-9.2Zm0 1.8a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6Zm4.8-2a1.08 1.08 0 1 1 0 2.16 1.08 1.08 0 0 1 0-2.16Z"/></svg>
+								</span>
+								<span class="social-label">Instagram<em>@frann.visuals</em></span>
+							</a>
+						</li>
+						<li>
+							<a href={twitterHref} target="_blank" rel="noopener noreferrer">
+								<span class="social-badge" aria-hidden="true">
+									<svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M18.9 2H22l-7.6 8.7L23.3 22H16.6l-5.2-6.8L5.4 22H2.3l8.1-9.3L1.5 2h6.9l4.7 6.2L18.9 2Zm-1.2 18h1.7L7.4 3.9H5.6L17.7 20Z"/></svg>
+								</span>
+								<span class="social-label">X / Twitter<em>@TronkoGFX</em></span>
+							</a>
+						</li>
+						<li>
+							<a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+								<span class="social-badge" aria-hidden="true">
+									<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.9-2-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 5 4.3.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 2-1.4.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3ZM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 20.2 12c0 4.5-3.7 8.2-8.2 8.2Z"/></svg>
+								</span>
+								<span class="social-label">WhatsApp<em>Escribime directo</em></span>
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="footer-col footer-contact">
+					<h3>Contacto</h3>
+					<a class="btn btn-primary footer-btn" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+						<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.9-2-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 5 4.3.7.3 1.2.5 1.7.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 2-1.4.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3ZM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2Zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 20.2 12c0 4.5-3.7 8.2-8.2 8.2Z"/></svg>
+						+54 9 11 3888-0492
+					</a>
+					<p class="footer-note">Respondo normalmente el mismo día.</p>
+				</div>
+			</div>
+
+			<div class="footer-bar">
+				<p>© {new Date().getFullYear()} FranVisuals. Todos los derechos reservados.</p>
+				<p>Hecho en Buenos Aires, Argentina.</p>
+			</div>
+		</footer>
+
+		<script>
+			const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			// --- Theme toggle -----------------------------------------------------
+			const root = document.documentElement;
+			const toggle = document.querySelector('[data-theme-toggle]');
+			const syncToggle = () => {
+				toggle?.setAttribute('aria-pressed', root.getAttribute('data-theme') === 'light' ? 'true' : 'false');
+			};
+			syncToggle();
+			toggle?.addEventListener('click', () => {
+				const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+				root.setAttribute('data-theme', next);
+				try { localStorage.setItem('fv-theme', next); } catch (e) { /* storage blocked */ }
+				syncToggle();
+			});
+
+			// --- Gallery filters --------------------------------------------------
+			const grid = document.querySelector('[data-grid]');
+			const filters = document.querySelectorAll('.filter');
+			filters.forEach((btn) => {
+				btn.addEventListener('click', () => {
+					filters.forEach((b) => b.classList.remove('is-active'));
+					btn.classList.add('is-active');
+					const value = btn.getAttribute('data-filter');
+					grid?.querySelectorAll('.card').forEach((card) => {
+						const match = value === 'all' || card.getAttribute('data-category') === value;
+						card.classList.toggle('is-hidden', !match);
+					});
+				});
+			});
+
+			// --- Stat count-up ----------------------------------------------------
+			const counters = document.querySelectorAll('[data-count-to]');
+			const animateCount = (el: Element) => {
+				const target = Number(el.getAttribute('data-count-to'));
+				if (reduceMotion) {
+					el.textContent = String(target);
+					return;
+				}
+				const duration = 1100;
+				const start = Date.now();
+				const timer = window.setInterval(() => {
+					const progress = Math.min((Date.now() - start) / duration, 1);
+					const eased = 1 - Math.pow(1 - progress, 3);
+					el.textContent = String(Math.round(eased * target));
+					if (progress >= 1) window.clearInterval(timer);
+				}, 16);
+			};
+			const statsBlock = document.querySelector('[data-stats]');
+			if (statsBlock) {
+				let started = false;
+				const start = () => {
+					if (started) return;
+					started = true;
+					counters.forEach(animateCount);
+				};
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							start();
+							observer.disconnect();
+						}
+					});
+				}, { threshold: 0.15 });
+				observer.observe(statsBlock);
+				window.setTimeout(start, 900);
+			}
+
+			// --- Three-up carousel ------------------------------------------------
+			const carousel = document.querySelector('[data-carousel]');
+			if (carousel) {
+				const slides = Array.from(carousel.querySelectorAll('[data-slide]'));
+				const dots = Array.from(carousel.querySelectorAll('[data-carousel-dot]'));
+				const total = slides.length;
+				let index = 0;
+				let timer = 0;
+
+				const render = () => {
+					const prev = (index - 1 + total) % total;
+					const next = (index + 1) % total;
+					slides.forEach((slide, i) => {
+						slide.classList.toggle('is-current', i === index);
+						slide.classList.toggle('is-prev', i === prev);
+						slide.classList.toggle('is-next', i === next);
+						// Off-stage slides must not be reachable by keyboard or screen readers.
+						const offstage = i !== index && i !== prev && i !== next;
+						slide.toggleAttribute('inert', offstage);
+						slide.setAttribute('aria-hidden', i === index ? 'false' : 'true');
+					});
+					dots.forEach((dot, i) => {
+						dot.classList.toggle('is-active', i === index);
+						dot.setAttribute('aria-selected', i === index ? 'true' : 'false');
+					});
+				};
+
+				const go = (to: number) => {
+					index = (to + total) % total;
+					render();
+				};
+
+				const stop = () => {
+					if (timer) { window.clearInterval(timer); timer = 0; }
+				};
+				const play = () => {
+					if (reduceMotion || timer) return;
+					timer = window.setInterval(() => go(index + 1), 3800);
+				};
+
+				carousel.querySelector('[data-carousel-prev]')?.addEventListener('click', () => { stop(); go(index - 1); play(); });
+				carousel.querySelector('[data-carousel-next]')?.addEventListener('click', () => { stop(); go(index + 1); play(); });
+				dots.forEach((dot, i) => dot.addEventListener('click', () => { stop(); go(i); play(); }));
+
+				carousel.addEventListener('mouseenter', stop);
+				carousel.addEventListener('mouseleave', play);
+				carousel.addEventListener('focusin', stop);
+				carousel.addEventListener('focusout', play);
+				document.addEventListener('visibilitychange', () => (document.hidden ? stop() : play()));
+
+				// Drag / swipe. Pointer events cover touch, pen and mouse in one path.
+				const stage = carousel.querySelector('[data-carousel-stage]') as HTMLElement | null;
+				if (stage) {
+					let downX = 0;
+					let downY = 0;
+					let dragging = false;
+					const THRESHOLD = 45;
+
+					stage.addEventListener('pointerdown', (e: PointerEvent) => {
+						if (e.button !== 0) return;
+						downX = e.clientX;
+						downY = e.clientY;
+						dragging = true;
+						stop();
+					});
+
+					stage.addEventListener('pointerup', (e: PointerEvent) => {
+						if (!dragging) return;
+						dragging = false;
+						const dx = e.clientX - downX;
+						const dy = e.clientY - downY;
+						// Ignore mostly-vertical gestures so page scrolling still works.
+						if (Math.abs(dx) > THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+							go(dx < 0 ? index + 1 : index - 1);
+						}
+						play();
+					});
+
+					stage.addEventListener('pointercancel', () => { dragging = false; play(); });
+					stage.addEventListener('dragstart', (e: Event) => e.preventDefault());
+
+					// Keyboard parity for the swipe.
+					stage.setAttribute('tabindex', '0');
+					stage.setAttribute('role', 'group');
+					stage.setAttribute('aria-label', 'Proyectos destacados, usá las flechas para recorrer');
+					stage.addEventListener('keydown', (e: KeyboardEvent) => {
+						if (e.key === 'ArrowLeft') { e.preventDefault(); stop(); go(index - 1); play(); }
+						if (e.key === 'ArrowRight') { e.preventDefault(); stop(); go(index + 1); play(); }
+					});
+				}
+
+				render();
+				play();
+			}
+
+			// --- Archive lightbox --------------------------------------------------
+			const lightbox = document.querySelector('[data-lightbox]');
+			if (lightbox) {
+				// Built here rather than shipped in the markup: an image element with an
+				// empty src makes some browsers re-request the page URL.
+				const lbMedia = lightbox.querySelector('[data-lightbox-media]') as HTMLElement;
+				const lbImg = document.createElement('img');
+				lbImg.decoding = 'async';
+				lbMedia.appendChild(lbImg);
+				const lbTitle = lightbox.querySelector('[data-lightbox-title]') as HTMLElement;
+				const lbTag = lightbox.querySelector('[data-lightbox-tag]') as HTMLElement;
+				const lbCounter = lightbox.querySelector('[data-lightbox-counter]') as HTMLElement;
+				const closeBtn = lightbox.querySelector('.lightbox-close') as HTMLElement;
+				let openers: HTMLElement[] = [];
+				let position = 0;
+				let lastFocused: HTMLElement | null = null;
+
+				// Only pieces visible under the active filter are navigable.
+				const visibleOpeners = () =>
+					Array.from(document.querySelectorAll('[data-open-lightbox]')).filter(
+						(b) => !(b.closest('.card') as HTMLElement)?.classList.contains('is-hidden'),
+					) as HTMLElement[];
+
+				const show = (i: number) => {
+					position = (i + openers.length) % openers.length;
+					const btn = openers[position];
+					lbImg.src = btn.getAttribute('data-full') || '';
+					lbImg.alt = btn.getAttribute('data-title') || '';
+					lbTitle.textContent = btn.getAttribute('data-title');
+					lbTag.textContent = btn.getAttribute('data-tag');
+					lbCounter.textContent = `${position + 1} / ${openers.length}`;
+				};
+
+				const open = (btn: HTMLElement) => {
+					openers = visibleOpeners();
+					lastFocused = btn;
+					show(openers.indexOf(btn));
+					lightbox.removeAttribute('hidden');
+					document.body.style.overflow = 'hidden';
+					// Force a reflow rather than waiting on rAF: a throttled frame
+					// callback would leave the panel transparent but click-blocking.
+					void (lightbox as HTMLElement).offsetWidth;
+					lightbox.classList.add('is-open');
+					closeBtn.focus();
+				};
+
+				const close = () => {
+					lightbox.classList.remove('is-open');
+					document.body.style.overflow = '';
+					const done = () => {
+						lightbox.setAttribute('hidden', '');
+						lbImg.removeAttribute('src');
+					};
+					if (reduceMotion) done();
+					else window.setTimeout(done, 220);
+					lastFocused?.focus();
+				};
+
+				document.querySelectorAll('[data-open-lightbox]').forEach((btn) => {
+					btn.addEventListener('click', () => open(btn as HTMLElement));
+				});
+				lightbox.querySelectorAll('[data-lightbox-close]').forEach((el) => el.addEventListener('click', close));
+				lightbox.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => show(position - 1));
+				lightbox.querySelector('[data-lightbox-next]')?.addEventListener('click', () => show(position + 1));
+
+				document.addEventListener('keydown', (e) => {
+					if (lightbox.hasAttribute('hidden')) return;
+					if (e.key === 'Escape') close();
+					if (e.key === 'ArrowLeft') show(position - 1);
+					if (e.key === 'ArrowRight') show(position + 1);
+					if (e.key === 'Tab') {
+						// Keep focus inside the dialog while it is open.
+						const focusables = Array.from(
+							lightbox.querySelectorAll('button'),
+						) as HTMLElement[];
+						const first = focusables[0];
+						const last = focusables[focusables.length - 1];
+						if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+						else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+					}
+				});
+			}
+		</script>
+
+		<style is:global>
+			:root,
+			:root[data-theme='dark'] {
+				--bg: #05090f;
+				--bg-elevated: #0a1220;
+				--panel: #0c1424;
+				--border: rgba(125, 211, 252, 0.14);
+				--border-strong: rgba(125, 211, 252, 0.32);
+				--text: #eaf2fb;
+				--text-dim: #8ea3bd;
+				--accent: #38bdf8;
+				--accent-bright: #7dd3fc;
+				--accent-glow: rgba(56, 189, 248, 0.22);
+				--on-accent: #04121f;
+				--logo: #ffffff;
+				/* Green, not red: the dot signals "available", and red reads as the
+				   opposite of the message next to it. */
+				--available: #2ee06f;
+				--caption-veil: linear-gradient(to top, rgba(3, 8, 16, 0.94), rgba(3, 8, 16, 0));
+				--shard: rgba(125, 211, 252, 0.16);
+			}
+
+			:root[data-theme='light'] {
+				--bg: #eef1f7;
+				--bg-elevated: #ffffff;
+				--panel: #ffffff;
+				--border: rgba(13, 27, 51, 0.14);
+				--border-strong: rgba(13, 27, 51, 0.34);
+				--text: #0a1220;
+				--text-dim: #4d5f7a;
+				--accent: #0b6fa8;
+				--accent-bright: #095b8b;
+				--accent-glow: rgba(11, 111, 168, 0.16);
+				--on-accent: #ffffff;
+				--logo: #0d1b33;
+				--available: #0f9d4f;
+				--caption-veil: linear-gradient(to top, rgba(10, 18, 32, 0.9), rgba(10, 18, 32, 0));
+				--shard: rgba(13, 27, 51, 0.14);
+			}
+
+			:root {
+				--font-display: 'Bebas Neue', 'Archivo', sans-serif;
+				--font-body: 'Archivo', system-ui, sans-serif;
+				--logo-src: url('/logo-mask.png');
+			}
+
+			* { box-sizing: border-box; }
+
+			html { scroll-behavior: smooth; }
+
+			@media (prefers-reduced-motion: reduce) {
+				html { scroll-behavior: auto; }
+			}
+
+			body {
+				margin: 0;
+				background: var(--bg);
+				color: var(--text);
+				font-family: var(--font-body);
+				line-height: 1.5;
+				overflow-x: hidden;
+				transition: background 0.35s ease, color 0.35s ease;
+			}
+
+			a { color: inherit; }
+
+			.skip-link {
+				position: absolute;
+				left: -9999px;
+				top: 0;
+				z-index: 100;
+				background: var(--accent);
+				color: var(--on-accent);
+				padding: 0.7rem 1.1rem;
+				font-weight: 700;
+				text-decoration: none;
+			}
+			.skip-link:focus { left: 0.75rem; top: 0.75rem; }
+
+			/* --- Logo -------------------------------------------------------- */
+			.wordmark {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.6rem;
+				text-decoration: none;
+				color: var(--text);
+			}
+			.wordmark-mark {
+				display: block;
+				width: 2.3rem;
+				height: 1.5rem;
+				background: var(--logo);
+				-webkit-mask-image: var(--logo-src);
+				mask-image: var(--logo-src);
+				-webkit-mask-repeat: no-repeat;
+				mask-repeat: no-repeat;
+				-webkit-mask-size: contain;
+				mask-size: contain;
+				-webkit-mask-position: center;
+				mask-position: center;
+				transition: background 0.35s ease;
+			}
+			.wordmark-text {
+				font-family: var(--font-display);
+				font-size: 1.6rem;
+				letter-spacing: 0.03em;
+				line-height: 1;
+			}
+			.wordmark-text span { color: var(--accent); }
+			.wordmark.small .wordmark-text { font-size: 1.3rem; }
+
+			/* --- Header ------------------------------------------------------ */
+			.site-header {
+				position: sticky;
+				top: 0;
+				z-index: 40;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 1rem;
+				padding: 0.95rem clamp(1rem, 4vw, 3rem);
+				background: color-mix(in srgb, var(--bg) 78%, transparent);
+				backdrop-filter: blur(12px);
+				border-bottom: 1px solid var(--border);
+			}
+
+			.header-actions { display: flex; align-items: center; gap: 0.6rem; }
+
+			.icon-link {
+				display: grid;
+				place-items: center;
+				width: 2.2rem;
+				height: 2.2rem;
+				border: 1px solid var(--border);
+				color: var(--text-dim);
+				text-decoration: none;
+				clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+				transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+			}
+			.icon-link:hover, .icon-link:focus-visible { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
+
+			/* Scoped to the header so it outranks the later `.btn { display }` rule;
+			   a bare `.header-cta` ties on specificity and loses on source order. */
+			@media (max-width: 560px) {
+				.site-header .header-cta { display: none; }
+			}
+
+			/* --- Theme toggle ------------------------------------------------ */
+			.theme-toggle {
+				border: 0;
+				background: none;
+				padding: 0;
+				cursor: pointer;
+				line-height: 0;
+			}
+			.theme-toggle-track {
+				position: relative;
+				display: inline-flex;
+				align-items: center;
+				justify-content: space-between;
+				width: 3.9rem;
+				height: 2.2rem;
+				padding: 0 0.5rem;
+				border: 1px solid var(--border);
+				background: var(--bg-elevated);
+				clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+				transition: border-color 0.25s ease, background 0.35s ease;
+			}
+			.theme-toggle:hover .theme-toggle-track { border-color: var(--accent); }
+			.theme-toggle:focus-visible .theme-toggle-track { outline: 2px solid var(--accent); outline-offset: 3px; }
+			.theme-icon { position: relative; z-index: 2; transition: color 0.3s ease, opacity 0.3s ease; }
+			.theme-icon-sun { color: var(--text-dim); opacity: 0.5; }
+			.theme-icon-moon { color: var(--on-accent); opacity: 1; }
+			:root[data-theme='light'] .theme-icon-sun { color: var(--on-accent); opacity: 1; }
+			:root[data-theme='light'] .theme-icon-moon { color: var(--text-dim); opacity: 0.5; }
+			.theme-toggle-knob {
+				position: absolute;
+				top: 50%;
+				left: 0.22rem;
+				width: 1.6rem;
+				height: 1.6rem;
+				margin-top: -0.8rem;
+				background: var(--accent);
+				box-shadow: 0 0 0 0 var(--accent-glow);
+				clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+				transform: translateX(1.68rem);
+				transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, box-shadow 0.3s ease;
+			}
+			:root[data-theme='light'] .theme-toggle-knob { transform: translateX(0); }
+			.theme-toggle:hover .theme-toggle-knob { box-shadow: 0 0 0 5px var(--accent-glow); }
+			@media (prefers-reduced-motion: reduce) {
+				.theme-toggle-knob { transition: none; }
+			}
+
+			/* --- Buttons ----------------------------------------------------- */
+			.btn {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.55rem;
+				font-family: var(--font-body);
+				font-weight: 700;
+				font-size: 0.92rem;
+				letter-spacing: 0.02em;
+				text-decoration: none;
+				padding: 0.72rem 1.25rem;
+				border: 1px solid transparent;
+				white-space: nowrap;
+				cursor: pointer;
+				clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+				transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+			}
+			.btn-primary { background: var(--accent); color: var(--on-accent); }
+			.btn-primary:hover, .btn-primary:focus-visible { background: var(--accent-bright); transform: translateY(-2px); }
+			.btn-ghost { border-color: var(--border-strong); color: var(--text); }
+			.btn-ghost:hover, .btn-ghost:focus-visible { border-color: var(--accent); color: var(--accent); }
+			.btn-lg { padding: 1rem 1.8rem; font-size: 1.05rem; }
+			.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+			/* --- Live pill --------------------------------------------------- */
+			.pill-live {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				font-size: 0.76rem;
+				font-weight: 700;
+				letter-spacing: 0.09em;
+				text-transform: uppercase;
+				color: var(--text-dim);
+				border: 1px solid var(--border-strong);
+				padding: 0.42rem 0.85rem 0.42rem 0.65rem;
+				margin: 0 0 1.5rem;
+				clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+			}
+			.dot {
+				width: 0.5rem;
+				height: 0.5rem;
+				border-radius: 50%;
+				background: var(--available);
+				animation: pulse 1.9s infinite;
+			}
+			@media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+			@keyframes pulse {
+				0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--available) 55%, transparent); }
+				70% { box-shadow: 0 0 0 8px transparent; }
+				100% { box-shadow: 0 0 0 0 transparent; }
+			}
+
+			/* --- Hero -------------------------------------------------------- */
+			.hero {
+				position: relative;
+				padding: clamp(3rem, 8vw, 5.5rem) clamp(1.25rem, 4vw, 3rem) clamp(2.5rem, 6vw, 4rem);
+				overflow: hidden;
+			}
+			.hero-shards { position: absolute; inset: 0; pointer-events: none; }
+			.shard {
+				position: absolute;
+				display: block;
+				border-top: 1px solid var(--shard);
+				transform-origin: left center;
+			}
+			.shard-1 { top: 14%; left: -10%; width: 70%; transform: rotate(-14deg); }
+			.shard-2 { top: 42%; right: -14%; width: 62%; transform: rotate(-14deg); border-top-width: 2px; }
+			.shard-3 { bottom: 12%; left: -6%; width: 52%; transform: rotate(-14deg); }
+			.hero::after {
+				content: '';
+				position: absolute;
+				inset: 0;
+				background: radial-gradient(ellipse 70% 55% at 50% 0%, var(--accent-glow), transparent 70%);
+				pointer-events: none;
+			}
+
+			.hero-inner {
+				position: relative;
+				z-index: 1;
+				max-width: 52rem;
+				margin: 0 auto;
+				text-align: center;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+
+			.hero-mark {
+				display: block;
+				width: clamp(4.5rem, 10vw, 6.5rem);
+				height: clamp(2.9rem, 6.5vw, 4.2rem);
+				margin-bottom: 1.5rem;
+				background: var(--logo);
+				-webkit-mask-image: var(--logo-src);
+				mask-image: var(--logo-src);
+				-webkit-mask-repeat: no-repeat;
+				mask-repeat: no-repeat;
+				-webkit-mask-size: contain;
+				mask-size: contain;
+				-webkit-mask-position: center;
+				mask-position: center;
+				transition: background 0.35s ease;
+			}
+
+			.hero-title {
+				font-family: var(--font-display);
+				font-size: clamp(2.8rem, 8.5vw, 6rem);
+				line-height: 0.94;
+				letter-spacing: 0.01em;
+				margin: 0 0 1.3rem;
+				text-transform: uppercase;
+			}
+			.accent { color: var(--accent); }
+
+			.hero-sub {
+				max-width: 36rem;
+				color: var(--text-dim);
+				font-size: clamp(1rem, 1.5vw, 1.12rem);
+				margin: 0 auto 2.2rem;
+			}
+
+			.hero-actions {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.9rem;
+				justify-content: center;
+				margin-bottom: 3rem;
+			}
+
+			/* --- Stat band --------------------------------------------------- */
+			.statband {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: center;
+				gap: clamp(1.25rem, 4vw, 3rem);
+				width: 100%;
+				padding-top: 2rem;
+				border-top: 1px solid var(--border);
+			}
+			.stat-lead {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 0.15rem;
+			}
+			.stat-lead-num {
+				font-family: var(--font-display);
+				font-size: clamp(3.2rem, 8vw, 4.6rem);
+				line-height: 0.9;
+				color: var(--accent);
+				letter-spacing: 0.01em;
+			}
+			.stat-lead-label {
+				font-size: 0.72rem;
+				font-weight: 700;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+				color: var(--text-dim);
+			}
+			.stat-rest {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				align-items: stretch;
+				gap: 0;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.stat-rest li {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 0.1rem;
+				padding: 0 clamp(0.9rem, 3vw, 1.6rem);
+				border-left: 1px solid var(--border);
+			}
+			.stat-rest li:first-child { border-left: 0; }
+			.stat-rest .n {
+				font-family: var(--font-display);
+				font-size: 1.75rem;
+				line-height: 1;
+				color: var(--text);
+			}
+			.stat-rest .l {
+				font-size: 0.66rem;
+				font-weight: 600;
+				letter-spacing: 0.09em;
+				text-transform: uppercase;
+				color: var(--text-dim);
+				text-align: center;
+			}
+
+			/* --- Carousel ---------------------------------------------------- */
+			.showcase { padding: 0 clamp(1rem, 4vw, 3rem) clamp(2.5rem, 6vw, 4rem); }
+			.showcase-head { max-width: 78rem; margin: 0 auto 1.4rem; text-align: center; }
+			.showcase-head h2 {
+				font-family: var(--font-display);
+				font-size: clamp(2.2rem, 5vw, 3.4rem);
+				line-height: 1;
+				text-transform: uppercase;
+				letter-spacing: 0.01em;
+				margin: 0 0 0.35rem;
+			}
+			.showcase-head p {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				margin: 0;
+				color: var(--text-dim);
+				font-size: 0.84rem;
+				font-weight: 600;
+				letter-spacing: 0.04em;
+			}
+			.showcase-head p::before,
+			.showcase-head p::after {
+				content: '';
+				width: 1.4rem;
+				height: 1px;
+				background: var(--border-strong);
+			}
+
+			.carousel { max-width: 78rem; margin: 0 auto; }
+			.carousel-stage {
+				position: relative;
+				width: 100%;
+				aspect-ratio: 16 / 7.4;
+				overflow: hidden;
+				cursor: grab;
+				touch-action: pan-y;
+			}
+			.carousel-stage:active { cursor: grabbing; }
+			.carousel-stage:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+			.carousel-stage img { user-select: none; -webkit-user-drag: none; }
+			.slide {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 64%;
+				margin: 0;
+				aspect-ratio: 16 / 9;
+				overflow: hidden;
+				background: var(--panel);
+				border: 1px solid var(--border);
+				opacity: 0;
+				pointer-events: none;
+				transform: translate(-50%, -50%) scale(0.8);
+				clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+				transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, filter 0.6s ease;
+				z-index: 1;
+			}
+			.slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
+			.slide.is-current {
+				opacity: 1;
+				pointer-events: auto;
+				transform: translate(-50%, -50%) scale(1);
+				border-color: var(--border-strong);
+				z-index: 3;
+			}
+			.slide.is-prev,
+			.slide.is-next {
+				opacity: 0.45;
+				filter: blur(2px) saturate(0.7);
+				z-index: 2;
+			}
+			.slide.is-prev { transform: translate(-50%, -50%) translateX(-64%) rotate(-6deg) scale(0.78); }
+			.slide.is-next { transform: translate(-50%, -50%) translateX(64%) rotate(6deg) scale(0.78); }
+			.slide figcaption {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				display: flex;
+				align-items: center;
+				gap: 0.6rem;
+				padding: 0.85rem 1rem;
+				background: var(--caption-veil);
+				opacity: 0;
+				transition: opacity 0.4s ease;
+			}
+			.slide.is-current figcaption { opacity: 1; }
+			.slide figcaption .title { color: #f4f9ff; }
+			@media (prefers-reduced-motion: reduce) {
+				.slide { transition: opacity 0.2s ease; }
+			}
+			@media (max-width: 720px) {
+				.carousel-stage { aspect-ratio: 16 / 10; }
+				.slide { width: 78%; }
+				.slide.is-prev { transform: translate(-50%, -50%) translateX(-58%) rotate(-5deg) scale(0.74); }
+				.slide.is-next { transform: translate(-50%, -50%) translateX(58%) rotate(5deg) scale(0.74); }
+			}
+
+			.carousel-controls {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 1rem;
+				margin-top: 1.1rem;
+			}
+			.carousel-arrow {
+				display: grid;
+				place-items: center;
+				width: 2.3rem;
+				height: 2.3rem;
+				border: 1px solid var(--border);
+				background: transparent;
+				color: var(--text-dim);
+				cursor: pointer;
+				clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+				transition: color 0.2s ease, border-color 0.2s ease;
+			}
+			.carousel-arrow:hover, .carousel-arrow:focus-visible { color: var(--accent); border-color: var(--accent); }
+			.carousel-arrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+			.carousel-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+			/* Twelve full-width bars outrun a phone, which shoved the arrows off
+			   screen; below this width the dots take their own wrapping row. */
+			@media (max-width: 720px) {
+				.carousel-controls { flex-wrap: wrap; gap: 0.5rem 1rem; }
+				.carousel-dots { order: 3; width: 100%; }
+				.carousel-dot { width: 1.1rem; }
+			}
+			.carousel-dot {
+				width: 1.5rem;
+				height: 3px;
+				padding: 0;
+				border: 0;
+				background: var(--border-strong);
+				cursor: pointer;
+				transition: background 0.25s ease, transform 0.25s ease;
+			}
+			.carousel-dot:hover { background: var(--text-dim); }
+			.carousel-dot.is-active { background: var(--accent); transform: scaleY(1.8); }
+			.carousel-dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+			/* --- Ticker ------------------------------------------------------ */
+			.ticker {
+				border-top: 1px solid var(--border);
+				border-bottom: 1px solid var(--border);
+				background: var(--bg-elevated);
+				overflow: hidden;
+				padding: 0.8rem 0;
+			}
+			/* Two identical groups, each carrying its own trailing gap, so
+			   translating the viewport by exactly -50% lands seamlessly. */
+			.ticker-viewport {
+				display: flex;
+				width: max-content;
+				animation: ticker-scroll 34s linear infinite;
+			}
+			.ticker-group { display: flex; flex-shrink: 0; }
+			.ticker-item {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.7rem;
+				padding-right: 2.75rem;
+				font-family: var(--font-display);
+				font-size: 1.05rem;
+				letter-spacing: 0.06em;
+				color: var(--text-dim);
+				white-space: nowrap;
+			}
+			.ticker-item::before {
+				content: '';
+				width: 0.42rem;
+				height: 0.42rem;
+				background: var(--accent);
+				transform: rotate(45deg);
+				flex-shrink: 0;
+			}
+			.ticker:hover .ticker-viewport { animation-play-state: paused; }
+			@keyframes ticker-scroll {
+				from { transform: translateX(0); }
+				to { transform: translateX(-50%); }
+			}
+			@media (prefers-reduced-motion: reduce) {
+				.ticker-viewport { animation: none; width: 100%; justify-content: center; }
+				.ticker-group:last-child { display: none; }
+				.ticker-group { flex-wrap: wrap; justify-content: center; row-gap: 0.4rem; }
+			}
+
+			/* --- Gallery ----------------------------------------------------- */
+			.gallery { padding: clamp(3rem, 8vw, 5.5rem) clamp(1.25rem, 4vw, 3rem); }
+			.gallery-head h2, .cta h2 {
+				font-family: var(--font-display);
+				font-size: clamp(2.2rem, 5vw, 3.4rem);
+				line-height: 1;
+				text-transform: uppercase;
+				margin: 0 0 0.5rem;
+				letter-spacing: 0.01em;
+			}
+			.gallery-head p { color: var(--text-dim); margin: 0 0 2rem; }
+
+			.filters { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2.4rem; }
+			.filter {
+				font-family: var(--font-body);
+				font-weight: 700;
+				font-size: 0.85rem;
+				letter-spacing: 0.02em;
+				background: transparent;
+				color: var(--text-dim);
+				border: 1px solid var(--border-strong);
+				padding: 0.55rem 1rem;
+				cursor: pointer;
+				display: inline-flex;
+				gap: 0.45rem;
+				align-items: center;
+				clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+				transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+			}
+			.filter span { opacity: 0.7; font-weight: 500; }
+			.filter:hover, .filter:focus-visible { color: var(--text); }
+			.filter:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+			.filter.is-active { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+			.filter.is-active span { opacity: 0.75; }
+
+			.grid { columns: 4 16rem; column-gap: 1.1rem; }
+			@media (max-width: 720px) { .grid { columns: 2 12rem; } }
+
+			.card {
+				position: relative;
+				margin: 0 0 1.1rem;
+				break-inside: avoid;
+				border: 1px solid var(--border);
+				background: var(--panel);
+				overflow: hidden;
+				clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+				transition: border-color 0.25s ease, transform 0.35s ease;
+			}
+			.card.is-hidden { display: none; }
+			.card img { display: block; width: 100%; height: auto; }
+			.card:hover, .card:focus-within { border-color: var(--border-strong); transform: translateY(-3px); }
+
+			.corner {
+				position: absolute;
+				width: 1.1rem;
+				height: 1.1rem;
+				border-color: var(--accent);
+				opacity: 0;
+				transition: opacity 0.25s ease;
+				z-index: 2;
+				pointer-events: none;
+			}
+			.corner-tl { top: 0.5rem; left: 0.5rem; border-top: 2px solid; border-left: 2px solid; }
+			.corner-tr { top: 0.5rem; right: 0.5rem; border-top: 2px solid; border-right: 2px solid; }
+			.corner-bl { bottom: 0.5rem; left: 0.5rem; border-bottom: 2px solid; border-left: 2px solid; }
+			.corner-br { bottom: 0.5rem; right: 0.5rem; border-bottom: 2px solid; border-right: 2px solid; }
+			.card:hover .corner, .card:focus-within .corner { opacity: 1; }
+
+			.card figcaption {
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				display: flex;
+				align-items: center;
+				gap: 0.6rem;
+				padding: 0.75rem 0.9rem;
+				background: var(--caption-veil);
+				transform: translateY(15%);
+				opacity: 0;
+				transition: transform 0.25s ease, opacity 0.25s ease;
+			}
+			.card:hover figcaption, .card:focus-within figcaption { transform: translateY(0); opacity: 1; }
+			.card figcaption .title { color: #f4f9ff; }
+			@media (hover: none) {
+				.card figcaption { transform: translateY(0); opacity: 1; }
+				.corner { opacity: 1; }
+			}
+
+			.tag {
+				font-size: 0.64rem;
+				font-weight: 800;
+				letter-spacing: 0.07em;
+				text-transform: uppercase;
+				color: var(--on-accent);
+				background: var(--accent);
+				padding: 0.2rem 0.42rem;
+				flex-shrink: 0;
+			}
+			figcaption .title {
+				font-size: 0.8rem;
+				font-weight: 600;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+
+			/* --- Card zoom affordance ---------------------------------------- */
+			.sr-only {
+				position: absolute;
+				width: 1px; height: 1px;
+				padding: 0; margin: -1px;
+				overflow: hidden;
+				clip: rect(0 0 0 0);
+				white-space: nowrap;
+				border: 0;
+			}
+			.card-open {
+				position: absolute;
+				inset: 0;
+				width: 100%;
+				border: 0;
+				padding: 0;
+				background: transparent;
+				cursor: zoom-in;
+				z-index: 3;
+			}
+			.card-open:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+			.card-zoom {
+				position: absolute;
+				top: 0.6rem;
+				right: 0.6rem;
+				display: grid;
+				place-items: center;
+				width: 2rem;
+				height: 2rem;
+				color: var(--on-accent);
+				background: var(--accent);
+				clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+				opacity: 0;
+				transform: translateY(-4px);
+				transition: opacity 0.25s ease, transform 0.25s ease;
+			}
+			.card:hover .card-zoom,
+			.card-open:focus-visible .card-zoom { opacity: 1; transform: translateY(0); }
+			@media (hover: none) { .card-zoom { opacity: 1; transform: translateY(0); } }
+
+			/* --- Lightbox ----------------------------------------------------- */
+			.lightbox {
+				position: fixed;
+				inset: 0;
+				z-index: 90;
+				display: grid;
+				place-items: center;
+				padding: clamp(1rem, 4vw, 3rem);
+			}
+			.lightbox[hidden] { display: none; }
+			.lightbox-scrim {
+				position: absolute;
+				inset: 0;
+				background: rgba(2, 6, 12, 0.86);
+				backdrop-filter: blur(6px);
+				opacity: 0;
+				transition: opacity 0.22s ease;
+			}
+			.lightbox.is-open .lightbox-scrim { opacity: 1; }
+			.lightbox-panel {
+				position: relative;
+				max-width: min(78rem, 100%);
+				max-height: 100%;
+				opacity: 0;
+				transform: scale(0.97);
+				transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+			}
+			.lightbox.is-open .lightbox-panel { opacity: 1; transform: scale(1); }
+			.lightbox-figure {
+				margin: 0;
+				background: var(--panel);
+				border: 1px solid var(--border-strong);
+				clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+			}
+			.lightbox-media { display: flex; justify-content: center; }
+			.lightbox-media img {
+				display: block;
+				max-width: 100%;
+				max-height: calc(100vh - 12rem);
+				width: auto;
+			}
+			.lightbox-caption {
+				display: flex;
+				align-items: center;
+				gap: 0.7rem;
+				padding: 0.85rem 1.1rem;
+				border-top: 1px solid var(--border);
+				background: var(--bg-elevated);
+			}
+			.lightbox-title {
+				font-size: 0.9rem;
+				font-weight: 600;
+				color: var(--text);
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.lightbox-counter {
+				margin-left: auto;
+				flex-shrink: 0;
+				font-family: var(--font-display);
+				font-size: 1rem;
+				letter-spacing: 0.06em;
+				color: var(--text-dim);
+			}
+			.lightbox-btn {
+				position: absolute;
+				display: grid;
+				place-items: center;
+				width: 2.6rem;
+				height: 2.6rem;
+				border: 1px solid var(--border-strong);
+				background: var(--bg-elevated);
+				color: var(--text);
+				cursor: pointer;
+				clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+				transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+			}
+			.lightbox-btn:hover { color: var(--accent); border-color: var(--accent); }
+			.lightbox-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+			.lightbox-close { top: -1.3rem; right: -1.3rem; }
+			.lightbox-prev { left: -1.3rem; top: 50%; margin-top: -3rem; }
+			.lightbox-next { right: -1.3rem; top: 50%; margin-top: -3rem; }
+			.lightbox-prev:hover { transform: translateX(-2px); }
+			.lightbox-next:hover { transform: translateX(2px); }
+			/* Below this width there is no room outside the panel, so the controls
+			   move inside and overlay the image instead of hanging off the edge. */
+			@media (max-width: 860px) {
+				.lightbox-btn {
+					width: 2.4rem;
+					height: 2.4rem;
+					background: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
+					backdrop-filter: blur(4px);
+				}
+				.lightbox-close { top: 0.55rem; right: 0.55rem; }
+				.lightbox-prev { left: 0.55rem; top: 40%; margin-top: -1.2rem; }
+				.lightbox-next { right: 0.55rem; top: 40%; margin-top: -1.2rem; }
+				.lightbox-prev:hover, .lightbox-next:hover { transform: none; }
+				.lightbox-counter { display: none; }
+				.lightbox-media img { max-height: calc(100vh - 9rem); }
+			}
+			@media (prefers-reduced-motion: reduce) {
+				.lightbox-scrim, .lightbox-panel { transition: none; }
+			}
+
+			/* --- Closing CTA -------------------------------------------------- */
+			.cta {
+				text-align: center;
+				padding: clamp(4rem, 10vw, 7rem) 1.5rem;
+				border-top: 1px solid var(--border);
+				background: radial-gradient(ellipse 60% 70% at 50% 0%, var(--accent-glow), transparent 65%);
+			}
+			.cta h2 { margin-bottom: 2.2rem; }
+
+			/* --- Footer ------------------------------------------------------- */
+			.site-footer {
+				position: relative;
+				padding: clamp(2.5rem, 6vw, 3.5rem) clamp(1.25rem, 4vw, 3rem);
+				border-top: 1px solid var(--border);
+				background: var(--bg-elevated);
+				overflow: hidden;
+			}
+			.footer-mark {
+				position: absolute;
+				right: -3%;
+				bottom: -32%;
+				width: min(30rem, 62vw);
+				height: min(19.5rem, 40vw);
+				background: var(--logo);
+				opacity: 0.06;
+				-webkit-mask-image: var(--logo-src);
+				mask-image: var(--logo-src);
+				-webkit-mask-repeat: no-repeat;
+				mask-repeat: no-repeat;
+				-webkit-mask-size: contain;
+				mask-size: contain;
+				pointer-events: none;
+			}
+			.footer-inner {
+				position: relative;
+				z-index: 1;
+				display: grid;
+				grid-template-columns: minmax(15rem, 1.6fr) repeat(3, minmax(9rem, 1fr));
+				gap: clamp(1.75rem, 4vw, 3rem);
+				max-width: 78rem;
+				margin: 0 auto;
+			}
+			@media (max-width: 900px) {
+				.footer-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+				.footer-brand { grid-column: 1 / -1; }
+			}
+			@media (max-width: 520px) {
+				.footer-inner { grid-template-columns: minmax(0, 1fr); }
+			}
+
+			.footer-brand { max-width: 24rem; }
+			.footer-tagline {
+				margin: 0.9rem 0 1.1rem;
+				color: var(--text-dim);
+				font-size: 0.9rem;
+				line-height: 1.6;
+			}
+			.footer-pill { margin: 0; font-size: 0.7rem; }
+
+			.footer-col h3 {
+				margin: 0 0 0.9rem;
+				font-size: 0.7rem;
+				font-weight: 700;
+				letter-spacing: 0.13em;
+				text-transform: uppercase;
+				color: var(--text);
+			}
+			.footer-col ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.55rem; }
+			/* :not(.btn) matters — a bare `.footer-col a` outranks `.btn-primary` on
+			   specificity and was repainting the contact button's label dim. */
+			.footer-col a:not(.btn) {
+				display: inline-block;
+				color: var(--text-dim);
+				text-decoration: none;
+				font-size: 0.88rem;
+				transition: color 0.2s ease, transform 0.2s ease;
+			}
+			.footer-col a:not(.btn):hover,
+			.footer-col a:not(.btn):focus-visible { color: var(--accent); transform: translateX(2px); }
+
+			.footer-social { gap: 0.75rem; }
+			.footer-social a { display: flex; align-items: center; gap: 0.7rem; }
+			.social-badge {
+				display: grid;
+				place-items: center;
+				width: 2.1rem;
+				height: 2.1rem;
+				flex-shrink: 0;
+				color: var(--text);
+				border: 1px solid var(--border-strong);
+				clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+				transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+			}
+			.footer-social a:hover .social-badge,
+			.footer-social a:focus-visible .social-badge {
+				color: var(--on-accent);
+				background: var(--accent);
+				border-color: var(--accent);
+			}
+			.social-label { display: flex; flex-direction: column; line-height: 1.25; }
+			.social-label em {
+				font-style: normal;
+				font-size: 0.76rem;
+				color: var(--text-dim);
+			}
+
+			.footer-btn {
+				font-size: 0.9rem;
+				padding: 0.7rem 1.05rem;
+				color: var(--on-accent);
+			}
+			.footer-note { margin: 0.8rem 0 0; color: var(--text-dim); font-size: 0.76rem; }
+
+			.footer-bar {
+				position: relative;
+				z-index: 1;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem 1.5rem;
+				justify-content: space-between;
+				max-width: 78rem;
+				margin: clamp(2rem, 5vw, 3rem) auto 0;
+				padding-top: 1.3rem;
+				border-top: 1px solid var(--border);
+			}
+			.footer-bar p { margin: 0; color: var(--text-dim); font-size: 0.78rem; }
+		</style>
+	</body>
+</html>
